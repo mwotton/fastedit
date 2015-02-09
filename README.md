@@ -18,6 +18,7 @@ TODO
 ====
 
 * bench against edit-distance over whole dictionary
+* come up with less desperately anodyne name
 * work out if we can recover standard levenshtein semantics (we don't
   currently allow substitution or transposition)
 * stop talking in the royal plural
