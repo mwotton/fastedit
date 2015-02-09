@@ -33,6 +33,11 @@ buildDict n dictWords = \s -> nub $ cantorise searchDict (deletions s) dicts
 deletions :: String -> [[BL.ByteString]]
 deletions s = map (ordNub . deleteN s) [0..(length s)]
 
+-- this is slower, oddly.
+deletions' :: String -> [[BL.ByteString]]
+deletions' = groupBy (\a b -> BL.length a==BL.length b) . sortBy (comparing ((*(-1)) . BL.length)) .
+            ordNub . map BL.pack .subsequences
+
 deleteN :: String -> Int -> [BL.ByteString]
 deleteN s n = map BL.pack $ toList $ go s n
   where
