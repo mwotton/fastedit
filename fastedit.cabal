@@ -24,7 +24,8 @@ library
                        unordered-containers,
                        containers,
                        safe,
-                       bytestring
+                       bytestring,
+                       hashable
   ghc-options: -Wall -threaded -rtsopts
   ghc-prof-options: -fprof-auto
   hs-source-dirs:      src

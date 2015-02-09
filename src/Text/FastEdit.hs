@@ -1,10 +1,10 @@
 {-# LANGUAGE TupleSections #-}
 
-
 module Text.FastEdit where
 
 import           BasePrelude
 import qualified Data.ByteString.Lazy.Char8 as BL
+import           Data.Hashable              (Hashable)
 import qualified Data.HashMap.Strict        as HM
 import qualified Data.HashSet               as HS
 import qualified Data.Sequence              as Seq
@@ -23,18 +23,12 @@ antiDiagonals = concatMap anti [0..]
   where anti n = zip [0..n] (reverse [0..n])
 
 buildDict :: Int -> [String] -> String -> [String]
-buildDict n dictWords = \s -> nub $ cantorise dostuff (deletions s) dicts
+buildDict n dictWords = \s -> nub $ cantorise searchDict (deletions s) dicts
   where
-    dostuff candidates dict = concat $ mapMaybe (`HM.lookup` dict) candidates
-
+    searchDict candidates dict = concat $ mapMaybe (`HM.lookup` dict) candidates
     dicts = map (fmap HS.toList . builder) $ transpose $ map (take n . tagged) dictWords
-
-    builder = HM.fromListWith (HS.union) . concatMap foo
-
-    foo (a,as) = map (,HS.singleton a) as
-
-
-tagged s = (map (s,) (deletions s))
+    builder = HM.fromListWith HS.union . concatMap (\(a,as) -> map (,HS.singleton a) as)
+    tagged s = map (s,) (deletions s)
 
 deletions :: String -> [[BL.ByteString]]
 deletions s = map (ordNub . deleteN s) [0..(length s)]
@@ -48,7 +42,9 @@ deleteN s n = map BL.pack $ toList $ go s n
     go [] _ = Seq.empty
 
 
-ordNub l = go HS.empty l
+-- ordNub :: (Hashable t, Eq t) => [t] -> [t]
+ordNub :: (Hashable t, Eq t) => [t] -> [t]
+ordNub = go HS.empty
   where
     go _ [] = []
     go s (x:xs) = if x `HS.member` s then go s xs
