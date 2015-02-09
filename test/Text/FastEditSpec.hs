@@ -18,7 +18,7 @@ newtype ReasonableString = ReasonableString String
   deriving (Show, Eq)
 
 instance Arbitrary ReasonableString where
-  arbitrary = ReasonableString <$> arbitrary `suchThat` (\s -> length s < 10)
+  arbitrary = ReasonableString <$> arbitrary `suchThat` (\s -> length s < 20)
 
 spec = describe "fastedit" $ do
   it "has a result on a word" $ do
