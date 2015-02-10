@@ -16,7 +16,7 @@ cantorise f as bs = concat $ mapMaybe
                     (\(ai,bi) -> do
                         a <- atMay as ai
                         b <- atMay bs bi
-                        return $ f a b) $ take (length as + length bs) antiDiagonals
+                        return $ f a b) $ take (length as * length bs) antiDiagonals
 
 antiDiagonals :: [(Int, Int)]
 antiDiagonals = concatMap anti [0..]
