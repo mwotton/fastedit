@@ -3,22 +3,18 @@
 
 name:                fastedit
 version:             0.1.0.0
--- synopsis:
--- description:
--- license:
+synopsis:            find nearest neighbours by edit-distance
+description:         Use faroo's deletion algorithm to generate possible
+                     autocorrections efficiently
+license:             MIT
 license-file:        LICENSE
 author:              Mark Wotton
 maintainer:          mwotton@gmail.com
--- copyright:
--- category:
 build-type:          Simple
--- extra-source-files:
 cabal-version:       >=1.10
 
 library
   exposed-modules:     Text.FastEdit
-  -- other-modules:
-  -- other-extensions:
   build-depends:       base >=4.7 && <4.8,
                        base-prelude,
                        unordered-containers,
